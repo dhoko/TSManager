@@ -19,10 +19,10 @@
 	</tr>
 	</thead>
 	<tbody>
-	<tr ng-repeat="todo in todos | filter:search" ng-class="{success : todo.done}">
+	<tr ng-repeat="todo in todos | filter:search" ng-class="{success : todo.done == '1'}">
 		<td>{{$index + 1}}</td>
 		<td class="task">
-			<a class="label" data-title="{{todo.name}}" data-unique="1" bs-popover="'partials/aboutPop.html'">{{todo.name}}</a>
+			<a class="label" data-title="{{todo.name}}" data-unique="1" bs-popover="'app/partials/aboutPop.html'">{{todo.name}}</a>
 		</td>
 		<td><a href="{{todo.branch.url}}">{{todo.branch.name}}</a></td>
 		<td>{{todo.description}}</td>
@@ -31,7 +31,7 @@
 			<!-- href="#/task/{{todo.id}}" -->
 		<!-- 	<a  data-unique="1" bs-popover="'partials/editFormPop.html'"><i class="icon-pencil"></i></a>
  -->
- 			<button ng-model="todo" type="button" class="btn" data-placement="left" data-unique="1" bs-popover="'partials/editFormPop.html'"><i class="icon-pencil"></i> Assign</button>
+ 			<button ng-model="todo" type="button" class="btn" data-placement="left" data-unique="1" bs-popover="'app/partials/editFormPop.html'"><i class="icon-pencil"></i> Assign</button>
 		</td>
 	</tr>
 	</tbody>

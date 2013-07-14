@@ -6,12 +6,12 @@ TSManager.config(function($routeProvider) {
   $routeProvider.
       when('/', {
         controller: 'ListCtrl',
-        templateUrl: 'partials/list.html',
+        templateUrl: 'app/partials/list.html',
         depth: 0
       }).
       when('/project/:id', {
         controller: 'EditCtrl',
-        templateUrl: 'partials/details.html',
+        templateUrl: 'app/partials/details.html',
         depth: 1
       });
 });

@@ -3,7 +3,7 @@
 TSManager.controller('ListCtrl', function ($scope, Tasks) {
   // this.projects = Project.query();
   // 
-	$scope.todos =  tasks;
+	$scope.todos =  Tasks.query();
 
 	$scope.submitForm = function (data) {
 
