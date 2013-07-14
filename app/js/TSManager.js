@@ -1,6 +1,6 @@
 'use strict';
 
-var TSManager = angular.module('TSManager', ['ngResource']);
+var TSManager = angular.module('TSManager', ['ngResource','$strap.directives']);
 
 TSManager.config(function($routeProvider) {
   $routeProvider.
