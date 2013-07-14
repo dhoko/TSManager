@@ -1,0 +1,23 @@
+<form name="popoverForm">
+	<fieldset>
+		<legend>Mise à jour de la tache</legend>
+		<label>Label name</label>
+			<input type="text" placeholder="Type something…" ng-model="todo.name">
+			<span class="help-block">Example block-level help text here.</span>
+	</fieldset>
+		
+	<fieldset>
+		<legend>Activité</legend>
+
+		<label class="checkbox">
+			<input type="checkbox" ng-model="todo.done"> Terminée
+		</label>
+
+		<label class="checkbox">
+			<input type="checkbox" ng-model="todo.production"> En production
+		</label>
+	</fieldset>
+		
+		<button type="button" class="btn" ng-click="hide()">Close</button>
+		<button type="submit" class="btn btn-primary" ng-click="hide();submitForm(todo)">Save changes</button>
+</form>
