@@ -8,6 +8,7 @@ class DB {
 	private $db = null;
 
 	public function __construct() {
+		
 		try {
 
 			// If we already build our DB we do not need to Create a table
@@ -49,6 +50,7 @@ class DB {
 	 * @return Object PDO
 	 */
 	public static function model() {
+
 		$db = new DB();
 		return $db->db;
 	}
@@ -71,6 +73,7 @@ class DB {
 	 * @return Object     A row
 	 */
 	private static function findByPk($id) { 
+
 		$req = self::model()->prepare('SELECT * FROM Tasks WHERE id = :id;');
 		$req->bindValue(':id', $id, PDO::PARAM_INT);
 		$req->execute();
@@ -82,6 +85,7 @@ class DB {
 	 * @return Array     [Object]
 	 */
 	private static function findAll() {
+
 		$req = self::model()->prepare('SELECT * FROM Tasks;');
 		$req->execute();
 		return $req->fetchAll(PDO::FETCH_OBJ);
@@ -94,48 +98,97 @@ class DB {
 	 */
 	public static function create(Array $data) {
 
-		$inserts = array();
-		$keys = array();
-		$tmp = array();
-		$max = count($data);
+		try {
 
-		// Loop on each array in Data
-		for ($i=0; $i < $max ; $i++) { 
-
-			// For each one we build an array of params to record
-			foreach ($data[$i] as $key => $value) {
-
-				// First time, we build wich keys we need
-				if($i === 0) {
-					if( $key !== 'id' ) $keys[] = trim($key);
-				}
-
-				// Never record an id
-				if( $key !== 'id' ) {
-
-					// Sometimes we can record boolean so we convert them
-					if($key === 'done' || $key === 'production') $value = (int)$value;
-					// Push params
-					$tmp[] = trim((string)$value);
-
-				}
-			}
-			// Build an insert params : (param1,param2...)
-			$inserts[] = '("'.implode('","', $tmp).'")';
-			// Flush data
+			$inserts = array();
+			$keys = array();
 			$tmp = array();
+			$max = count($data);
+
+			// Loop on each array in Data
+			for ($i=0; $i < $max ; $i++) { 
+
+				// For each one we build an array of params to record
+				foreach ($data[$i] as $key => $value) {
+
+					// First time, we build wich keys we need
+					if($i === 0) {
+						if( $key !== 'id' ) $keys[] = trim($key);
+					}
+
+					// Never record an id
+					if( $key !== 'id' ) {
+
+						// Sometimes we can record boolean so we convert them
+						if($key === 'done' || $key === 'production') $value = (int)$value;
+						// Push params
+						$tmp[] = trim((string)$value);
+
+					}
+				}
+				// Build an insert params : (param1,param2...)
+				$inserts[] = '("'.implode('","', $tmp).'")';
+				// Flush data
+				$tmp = array();
+			}
+
+			// Bind keys and values to a request
+			$sql = "INSERT INTO Tasks (%s) VALUES %s;";
+			$sql = sprintf($sql,implode(',', $keys),implode(',', $inserts));
+
+			TSlog('SQLLITE Insert data to DB - ' . $sql);
+
+			// Ready sir
+			self::model()->exec($sql);
+			return self::model()->lastInsertId();
+
+		} catch (Exception $e) {
+			TSlog($e->getMessage(),'error');
+			
 		}
-
-		// Bind keys and values to a request
-		$sql = "INSERT INTO Tasks (%s) VALUES %s;";
-		$sql = sprintf($sql,implode(',', $keys),implode(',', $inserts));
-
-		TSlog('SQLLITE Insert data to DB - ' . $sql);
-
-		// Ready sir
-		self::model()->exec($sql);
-		return self::model()->lastInsertId();
 
 	}
 
+	/**
+	 * Update an element from the DB
+	 * @param  Integer  $id 	Current task to update
+	 * @param  Array    $params Associative array of params to update
+	 * @return Boolean
+	 */
+	public function update($id, Array $params) {
+
+		try {
+			$update = array();
+
+			foreach ($params as $key => $value) {
+				if(trim($key) === 'id') continue;
+				$update[] = trim($key).'="'.trim($value).'"';
+			}
+
+			$sql = sprintf('UPDATE Tasks SET %s WHERE id=%d',implode(',', $update),$id);
+			TSlog('SQLLITE Update data from DB - '.$sql);
+			self::$db->exec($sql);
+			return true;
+
+		} catch (Exception $e) {
+			TSlog("SQLLITE ".$e->getMessage(),'error');
+		}
+		return false;
+	}
+
+	/**
+	 * Delete elements from the DB
+	 * @param  Integer  $id 	Current task to delete
+	 */
+	public static function delete($id) {
+		try {
+
+			$sql = sprintf('DELETE * FROM Tasks WHERE id=%d',$id);
+			TSlog('SQLLITE Update data from DB - '.$sql);
+			self::$db->exec($sql);
+
+		} catch (Exception $e) {
+			TSlog("SQLLITE ".$e->getMessage(),'error');
+		}
+	}
 }

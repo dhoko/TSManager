@@ -19,41 +19,18 @@ function TSlog($msg,$type="") {
 	file_put_contents(USERDATA.DIRECTORY_SEPARATOR.$name.'.txt',date('Y-m-d H:i:s').' '.$msg."\n",FILE_APPEND);
 }
 
+include('TSManagerIncludes.php');
+
 Toro::serve(array(
     "/tasks" => "Tasks",
     "/tasks/:number" => "Tasks",
 ));
 
-class Input {
-
-	public static function rest() {
-		return json_decode(trim(file_get_contents('php://input')), true);
-	}
-
-	public static function clean($txt){
-		return htmlspecialchars(trim($txt),ENT_QUOTES);
-	}
-
-	public static function cleanArray($array) {
-		return array_map(function($e) {
-		    return self::clean($e);
-		},$array);
-	}
-}
-
 
 
 class Tasks {
 	public function get($id = NULL) {
-		// $data = file_get_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'list.json');
 
-		// $db = new Db();
-
-		// var_dump(Db::create(json_decode($data)));
-		// var_dump(Db::read());
-		// var_dump(json_decode($data));
-		// 
-		// 
 		if(empty($id)) {
 			echo json_encode(Db::read());
 		}else{
@@ -66,6 +43,18 @@ class Tasks {
 	}
 
 	public function post() {
+		if(DB::create(array(Input::cleanArray(Input::rest())))) {
+			echo json_encode(array(
+				'status' => 'success',
+				))
+		}else {
+			echo json_encode(array(
+				'status' => 'error',
+				))
+		}
+	}
+
+	public function delete($id) {
 		DB::create(array(Input::cleanArray(Input::rest())));
 	}
 }
