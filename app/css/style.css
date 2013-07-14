@@ -1,0 +1,7 @@
+section.container {margin-top: 60px}
+
+.task .label {
+	color : black;
+	text-shadow : 0 -1px 0 rgba(255, 255, 255, 0.69);
+	background-color: transparent
+}
