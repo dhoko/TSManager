@@ -28,4 +28,5 @@ class Input {
 		    return self::clean($e);
 		},$array);
 	}
+
 }

@@ -2,13 +2,13 @@
 class DB {
 
 	/**
-	 * Store the Database
+	 * S1tore the Database
 	 * @var PdoObject
 	 */
 	private $db = null;
 
 	public function __construct() {
-		
+
 		try {
 
 			// If we already build our DB we do not need to Create a table
@@ -140,13 +140,12 @@ class DB {
 
 			// Ready sir
 			self::model()->exec($sql);
-			return self::model()->lastInsertId();
+			return true;
 
 		} catch (Exception $e) {
 			TSlog($e->getMessage(),'error');
-			
 		}
-
+		return false;
 	}
 
 	/**
@@ -167,7 +166,7 @@ class DB {
 
 			$sql = sprintf('UPDATE Tasks SET %s WHERE id=%d',implode(',', $update),$id);
 			TSlog('SQLLITE Update data from DB - '.$sql);
-			self::$db->exec($sql);
+			self::model()->exec($sql);
 			return true;
 
 		} catch (Exception $e) {
@@ -183,12 +182,14 @@ class DB {
 	public static function delete($id) {
 		try {
 
-			$sql = sprintf('DELETE * FROM Tasks WHERE id=%d',$id);
+			$sql = sprintf('DELETE FROM Tasks WHERE id=%d',$id);
 			TSlog('SQLLITE Update data from DB - '.$sql);
-			self::$db->exec($sql);
-
+			self::model()->exec($sql);
+			return true;
 		} catch (Exception $e) {
 			TSlog("SQLLITE ".$e->getMessage(),'error');
 		}
+
+		return false;
 	}
 }

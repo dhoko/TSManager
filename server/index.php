@@ -1,5 +1,4 @@
 <?php 
-require '../vendor/autoload.php';
 
 define('USERDATA', dirname(__FILE__).DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR);
 
@@ -28,33 +27,62 @@ Toro::serve(array(
 
 
 
+
+
 class Tasks {
+
+	private static function response($msg,$type = 'success') {
+
+		$data = (is_array($msg) || is_object($data)) ? $msg : array();
+		echo json_encode(array(
+				'status' => $type,
+				'message' => $msg,
+				'data' => $data
+				));
+		die();
+
+	}
+
 	public function get($id = NULL) {
 
+
 		if(empty($id)) {
-			echo json_encode(Db::read());
+			$data = Db::read();
 		}else{
-			echo json_encode(Db::read((int)$id));
+			$data = Db::read((int)$id);
+		}
+
+		if($data) {
+			Response::json($data);
+		}else{
+			self::response('No data','error');
 		}
 	}
 
 	public function put($id) {
-		print_r(Input::rest());
+
+		$update = DB::update($id,Input::cleanArray(Input::rest()));
+
+		if(!$update) {
+			self::response('Something goes wrong', 'error');
+		}else{
+			self::response('Your update is a success');
+		}
 	}
 
 	public function post() {
 		if(DB::create(array(Input::cleanArray(Input::rest())))) {
-			echo json_encode(array(
-				'status' => 'success',
-				))
+			self::response('Yup it is ok');
 		}else {
-			echo json_encode(array(
-				'status' => 'error',
-				))
+			self::response('Something goes wrong', 'error');
 		}
 	}
 
 	public function delete($id) {
-		DB::create(array(Input::cleanArray(Input::rest())));
+		if(DB::delete($id)) {
+			self::response('Yup it is ok, not in database anymore');
+		}else{
+			self::response('Something goes wrong', 'error');
+		}
 	}
 }
