@@ -1,5 +1,13 @@
 'use strict';
 
 TSManager.factory('Tasks', function($resource) {
-  return $resource('/tasks/:id', { id: '@id' });
+
+	// Need to add the fucking PUT method to $resource
+	// DAFUQ ANCULAR ?
+    return $resource(
+    			'/tasks/:id', 
+    			{ id: '@id' },
+    			{ "update": {method:"PUT"}}
+    		);
+
 });
