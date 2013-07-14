@@ -27,7 +27,17 @@ Toro::serve(array(
 class Input {
 
 	public static function rest() {
-		return json_decode(trim(file_get_contents('php://input')));
+		return json_decode(trim(file_get_contents('php://input')), true);
+	}
+
+	public static function clean($txt){
+		return htmlspecialchars(trim($txt),ENT_QUOTES);
+	}
+
+	public static function cleanArray($array) {
+		return array_map(function($e) {
+		    return self::clean($e);
+		},$array);
 	}
 }
 
@@ -149,5 +159,9 @@ class Tasks {
 
 	public function put($id) {
 		print_r(Input::rest());
+	}
+
+	public function post() {
+		DB::create(array(Input::cleanArray(Input::rest())));
 	}
 }
