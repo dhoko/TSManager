@@ -1,6 +1,7 @@
 <?php 
 
 define('USERDATA', dirname(__FILE__).DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR);
+define('URL_GIT', 'github.com/octokitty/testing/');
 
 /**
  * Log fonction it builds 3 files :
@@ -24,6 +25,7 @@ Toro::serve(array(
 	"/" => "App",
     "/tasks" => "Tasks",
     "/tasks/:number" => "Tasks",
+    "webhook" => 'WebHook'
 ));
 
 
@@ -80,5 +82,27 @@ class Tasks {
 			Response::http(500);
 		}
 		Response::http(200);
+	}
+}
+
+class WebHook {
+
+	public function post() {
+
+		TSlog('Webhook connexion from - ' . $_SERVER['REMOTE_ADDR']);
+
+		$hook = new Hook();
+		$hook->init(Input::rest());
+
+		if($hook->isValidIp($_SERVER['REMOTE_ADDR'],['204.232.175.64/27', '192.30.252.0/22', '127.0.0.1/27'])) {
+
+			TSlog('Webhook connexion success from - ' . $_SERVER['REMOTE_ADDR']);
+
+			$data = $hook->run();
+
+			TSlog(var_export($data,true), 'error');
+			Response::json('success');
+		}
+
 	}
 }

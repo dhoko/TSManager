@@ -33,6 +33,13 @@ class Response {
 			));
 	}
 
+	/**
+	 * Build a view from a static file and inject data
+	 * @param  string $file   view Filename
+	 * @param  string $from   view folder
+	 * @param  array  $inject data to inject in the view
+	 * @return string         the view
+	 */
 	private static function renderFile($file,$from, Array $inject = array()) {
 
 		// Inject custom var to the view
@@ -44,6 +51,12 @@ class Response {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Render a view
+	 * @param  string $viewName View filename
+	 * @param  array  $data     Data to inject
+	 * @return void
+	 */
 	public static function view($viewName,Array $data = array()) {
 		echo self::renderFile($viewName.'.html','app',$data);
 		die();
@@ -61,6 +74,11 @@ class Response {
 		die();
 	}
 
+	/**
+	 * Return a HTTP header
+	 * @param  integer $httpCode HTTP code 
+	 * @return void
+	 */
 	public static function http($httpCode) {
 		$data = array();
 		echo self::render($data, $httpCode);
