@@ -5,3 +5,13 @@ section.container {margin-top: 60px}
 	text-shadow : 0 -1px 0 rgba(255, 255, 255, 0.69);
 	background-color: transparent
 }
+
+td.success,
+.table-striped tbody>tr:nth-child(odd) td.success {background-color: #d9edf7}
+.table-hover tbody tr:hover td.success:hover {background-color: #bce8f1}
+.table-hover tbody tr.success:hover td.success {background-color: #d0e9c6}
+
+.modal-body textarea {
+	width: 97%;
+	height: 100px
+}

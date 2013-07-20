@@ -2,9 +2,13 @@
 	<div class="control-group">
 	   <label class="control-label" for="search">Chercher une tache</label>
 	   <div class="controls">
-	   		<input type="search" id="search" ng-model="search" class="input-medium search-query" />
+	   		<input type="search" id="search" ng-model="search" class="input-medium search-query" placeholder="search a task..." />
 	   </div>
-	 </div>
+		<div class="controls">
+			<button type="submit" class="btn">Create a new task</button>
+			<button type="button" class="btn" bs-modal="'app/partials/modal.html'">New Task</button>
+		</div>
+	</div>
 </form>
 
 <div class="alerts">
@@ -23,13 +27,13 @@
 	</tr>
 	</thead>
 	<tbody>
-	<tr ng-repeat="todo in todos | filter:search" ng-class="{success : todo.done == 1}">
+	<tr ng-repeat="todo in todos | filter:search" ng-class="{success : todo.production == 1}">
 		<td>{{$index + 1}}</td>
 		<td class="task">
 			<a class="label" data-title="{{todo.name}}" data-unique="1" bs-popover="'app/partials/aboutPop.html'">{{todo.name}}</a>
 		</td>
 		<td><a href="{{todo.branch.url}}">{{todo.branch.name}}</a></td>
-		<td>{{todo.description}}</td>
+		<td ng-class="{success : todo.done == 1}">{{todo.description}}</td>
 		<td>{{todo.description}}</td>
 		<td>
 			<!-- href="#/task/{{todo.id}}" -->

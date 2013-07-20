@@ -4,6 +4,15 @@ TSManager.controller('ListCtrl', function ($scope, Tasks) {
 
 	$scope.todos =  Tasks.query();
 	$scope.alerts = [];
+	$scope.modal = {
+	  "content": "Hello Modal",
+	  "saved": false
+	}
+
+	$scope.create = function (task) {
+		Tasks.save(task);
+		$scope.todos.push(task);
+	}
 
 	$scope.alert = function() {
 	}
