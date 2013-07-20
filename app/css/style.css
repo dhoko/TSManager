@@ -1,15 +1,23 @@
 section.container {margin-top: 60px}
 
-.task .label {
+.td-task .label {
 	color : black;
 	text-shadow : 0 -1px 0 rgba(255, 255, 255, 0.69);
 	background-color: transparent
 }
 
-td.success,
+table {border: 1px solid #D5D2D2}
+table .td-done {text-align: center}
+thead tr {background: rgb(65, 63, 63)}
+th {color: rgb(199, 199, 199)}
+th a {color: rgb(255, 255, 255); cursor: pointer}
+th a:hover {color: rgb(255, 255, 255)}
+
+/*td.success,
 .table-striped tbody>tr:nth-child(odd) td.success {background-color: #d9edf7}
 .table-hover tbody tr:hover td.success:hover {background-color: #bce8f1}
 .table-hover tbody tr.success:hover td.success {background-color: #d0e9c6}
+.table tbody tr.success td.success {background-color: #dff0d8}*/
 
 .modal-body textarea {
 	width: 97%;

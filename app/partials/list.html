@@ -1,15 +1,16 @@
-<form class="form-horizontal">
-	<div class="control-group">
+<form class="form-horizontal row">
+	<div class="control-group span4">
 	   <label class="control-label" for="search">Chercher une tache</label>
 	   <div class="controls">
 	   		<input type="search" id="search" ng-model="search" class="input-medium search-query" placeholder="search a task..." />
 	   </div>
-		<div class="controls">
-			<button type="submit" class="btn">Create a new task</button>
-			<button type="button" class="btn" bs-modal="'app/partials/modal.html'">New Task</button>
-		</div>
+	</div>
+
+	<div class="control-group offset6 span2">
+		<button type="button" class="btn" bs-modal="'app/partials/modal.html'"><span class="icon-plus"></span> New Task</button>
 	</div>
 </form>
+
 
 <div class="alerts">
 		<div class="alert fade" ng-repeat="alert in alerts" bs-alert="alert"></div>
@@ -19,27 +20,31 @@
 	<thead>
 	<tr>
 		<th>#</th>
-		<th>Task</th>
-		<th>State</th>
-		<th>Done</th>
-		<th>Production</th>
-		<th>Attach To</th>
+		<th><a ng-click="from = '-name' ; reverse = !reverse">Task</a></th>
+		<th><a ng-click="from = -name ; reverse = !reverse">State</a></th>
+		<th><a ng-click="from = '-done'; reverse = !reverse">Done</a></th>
+		<th><a ng-click="from = '-production' ; reverse = !reverse">Production</a></th>
+		<th>Update</th>
+		<th>Remove</th>
 	</tr>
 	</thead>
 	<tbody>
-	<tr ng-repeat="todo in todos | filter:search" ng-class="{success : todo.production == 1}">
+	<tr ng-repeat="todo in todos | filter:search | orderBy:from:reverse" ng-class="{success : todo.production == 1}">
 		<td>{{$index + 1}}</td>
-		<td class="task">
+		<td class="td-task">
 			<a class="label" data-title="{{todo.name}}" data-unique="1" bs-popover="'app/partials/aboutPop.html'">{{todo.name}}</a>
 		</td>
-		<td><a href="{{todo.branch.url}}">{{todo.branch.name}}</a></td>
-		<td ng-class="{success : todo.done == 1}">{{todo.description}}</td>
-		<td>{{todo.description}}</td>
-		<td>
+		<td class="td-branch"><a href="{{todo.branch.url}}">{{todo.branch.name}}</a></td>
+		<td class="td-done"><span class="icon-ok-sign" ng-show="todo.done == 1"></span></td>
+		<td class="td-production">{{todo.description}}</td>
+		<td class="td-assign">
 			<!-- href="#/task/{{todo.id}}" -->
 		<!-- 	<a  data-unique="1" bs-popover="'partials/editFormPop.html'"><i class="icon-pencil"></i></a>
  -->
- 			<button ng-model="todo" type="button" class="btn" data-placement="left" data-unique="1" bs-popover="'app/partials/editFormPop.html'"><i class="icon-pencil"></i> Assign</button>
+ 			<button ng-model="todo" type="button" class="btn btn-small" data-placement="left" data-unique="1" bs-popover="'app/partials/editFormPop.html'" ng-disabled="todo.production == '1'"><span class="icon-pencil"></span> Update</button>
+		</td>
+		<td class="td-remove">
+			<button class="btn btn-danger btn-small" ng-click="remove(todo)"><span class="icon-trash"></span> Remove</button>
 		</td>
 	</tr>
 	</tbody>
