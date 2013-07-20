@@ -26,10 +26,27 @@ class Response {
 		);
 
 		$message = (isset($codes[(string)$status])) ? $codes[(string)$status] : 'You should not pass';
+		return self::renderFile('ajax.php','server',array(
+			'status' => $status,
+			'message' => $message,
+			'data' => $data
+			));
+	}
+
+	private static function renderFile($file,$from, Array $inject = array()) {
+
+		// Inject custom var to the view
+		if(!empty($inject)) extract($inject);
+
 		ob_start();
 		ob_implicit_flush(false);
-		require(ROOT . 'server/ajax.php');
+		require(ROOT . $from.DIRECTORY_SEPARATOR.$file);
 		return ob_get_clean();
+	}
+
+	public static function view($viewName,Array $data = array()) {
+		echo self::renderFile($viewName.'.html','app',$data);
+		die();
 	}
 
 	/**

@@ -21,11 +21,18 @@ function TSlog($msg,$type="") {
 include('TSManagerIncludes.php');
 
 Toro::serve(array(
+	"/" => "App",
     "/tasks" => "Tasks",
     "/tasks/:number" => "Tasks",
 ));
 
 
+class App {
+
+	public function get() {
+		Response::view('index');
+	}
+}
 
 
 
