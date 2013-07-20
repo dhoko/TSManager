@@ -23,7 +23,7 @@
 	</tr>
 	</thead>
 	<tbody>
-	<tr ng-repeat="todo in todos | filter:search" ng-class="{success : todo.done == '1'}">
+	<tr ng-repeat="todo in todos | filter:search" ng-class="{success : todo.done == 1}">
 		<td>{{$index + 1}}</td>
 		<td class="task">
 			<a class="label" data-title="{{todo.name}}" data-unique="1" bs-popover="'app/partials/aboutPop.html'">{{todo.name}}</a>
