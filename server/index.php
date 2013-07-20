@@ -48,37 +48,37 @@ class Tasks {
 		if($data) {
 			Response::json($data);
 		}else{
-			Response::json(array(),400);
+			Response::http(400);
 		}
 	}
 
 	public function put($id) {
 
-		if(is_null($id)) Response::json(array(),428);
+		if(is_null($id)) Response::http(428);
 
 		$update = DB::update($id,Input::cleanArray(Input::rest()));
 
 		if(!$update) {
-			Response::json(array(),500);
+			Response::http(500);
 		}
-		Response::json(array(),200);
+		Response::http(200);
 	}
 
 	public function post() {
 		if(!DB::create(array(Input::cleanArray(Input::rest())))) {
-			Response::json(array(),412);
+			Response::http(412);
 		}
 		
-		Response::json(array(),200);
+		Response::http(200);
 	}
 
 	public function delete($id) {
 
-		if(is_null($id)) Response::json(array(),428);
+		if(is_null($id)) Response::http(428);
 
 		if(!DB::delete($id)) {
-			Response::json(array(),500);
+			Response::http(500);
 		}
-		Response::json(array(),200);
+		Response::http(200);
 	}
 }

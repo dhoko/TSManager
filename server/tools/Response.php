@@ -61,4 +61,10 @@ class Response {
 		die();
 	}
 
+	public static function http($httpCode) {
+		$data = array();
+		echo self::render($data, $httpCode);
+		die();
+	}
+
 }
