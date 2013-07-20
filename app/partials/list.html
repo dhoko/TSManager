@@ -21,7 +21,7 @@
 	<tr>
 		<th>#</th>
 		<th><a ng-click="from = '-name' ; reverse = !reverse">Task</a></th>
-		<th><a ng-click="from = -name ; reverse = !reverse">State</a></th>
+		<th><a ng-click="from = '-branch.url' ; reverse = !reverse">State</a></th>
 		<th><a ng-click="from = '-done'; reverse = !reverse">Done</a></th>
 		<th><a ng-click="from = '-production' ; reverse = !reverse">Production</a></th>
 		<th>Update</th>
@@ -34,9 +34,9 @@
 		<td class="td-task">
 			<a class="label" data-title="{{todo.name}}" data-unique="1" bs-popover="'app/partials/aboutPop.html'">{{todo.name}}</a>
 		</td>
-		<td class="td-branch"><a href="{{todo.branch.url}}">{{todo.branch.name}}</a></td>
+		<td class="td-branch"><a href="{{todo.branch.url}}">{{todo.branch.name}}</a> <span ng-show="!todo.branch.url">Inactif</span></td>
 		<td class="td-done"><span class="icon-ok-sign" ng-show="todo.done == 1"></span></td>
-		<td class="td-production">{{todo.description}}</td>
+		<td class="td-production"><span class="icon-ok-sign" ng-show="todo.done == 1"></span></td>
 		<td class="td-assign">
 			<!-- href="#/task/{{todo.id}}" -->
 		<!-- 	<a  data-unique="1" bs-popover="'partials/editFormPop.html'"><i class="icon-pencil"></i></a>

@@ -7,7 +7,8 @@ section.container {margin-top: 60px}
 }
 
 table {border: 1px solid #D5D2D2}
-table .td-done {text-align: center}
+table .td-done, 
+table .td-production {text-align: center}
 thead tr {background: rgb(65, 63, 63)}
 th {color: rgb(199, 199, 199)}
 th a {color: rgb(255, 255, 255); cursor: pointer}
